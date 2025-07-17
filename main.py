@@ -4,6 +4,7 @@ from visualizacion import *
 from train import *
 from inferencia import predict_from_model
 from config import *
+from backtesting import *
 
 moneda = 'BTCUSDT'
 
@@ -29,13 +30,16 @@ ranking = calcular_importancia_features(df_btc)
 df_btc, _ = balanced_methods(df_btc)
 
 # Creamos el modelo
-modelo, feature_cols, target_col = execute_random_forest(df_btc)
+modelo, feature_cols, target_col = execute_random_forest(df_btc, )
 
 # Predecimos con el modelo ya entrenado para una fila o varias
-pred = predict_from_model(df_test, modelo, feature_cols, return_probs=True)
-
-
+pred = predict_from_model(df_test, modelo, feature_cols, threshold=THRESHOLD, return_probs=True)
 
 pred.to_csv('predicciones.csv', index=False)
 
-print(pred)
+back = backtesting(pred)
+
+back_testing_resume(back)
+back_testing_graph(back)
+
+back.to_csv('back.csv')

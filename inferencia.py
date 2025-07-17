@@ -29,6 +29,6 @@ def predict_from_model(df, model, feature_cols, threshold=0.5, return_probs=True
     df['model_pred'] = preds.astype(bool)
     
     if return_probs:
-        return df[['date', 'model_pred', 'pred_proba']]
+        return df
     else:
         return df['model_pred']
