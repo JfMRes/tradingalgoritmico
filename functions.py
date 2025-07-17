@@ -23,9 +23,21 @@ def save_checkpoint(df, moneda):
     df.to_csv(nombre_archivo, index=False)
     print(f"✅ Checkpoint guardado como {nombre_archivo}")
 
-def filtrar_fecha(df, anios=5):
-    fecha_limite = pd.Timestamp.now() - pd.DateOffset(years=anios)
-    return df[df['date'] >= fecha_limite]
+def filtrar_fecha(df, total_anios=5, eliminar_anios_final=1):
+    if 'date' not in df.columns:
+        raise ValueError("El DataFrame debe tener una columna 'date'")
+    
+    df = df.copy()
+    df['date'] = pd.to_datetime(df['date'])
+    
+    fecha_max = df['date'].max()
+    fecha_inicio_total = fecha_max - pd.DateOffset(years=total_anios)
+    fecha_inicio_valido = fecha_max - pd.DateOffset(years=eliminar_anios_final)
+    
+    df_filtrado = df[(df['date'] >= fecha_inicio_total) & (df['date'] < fecha_inicio_valido)]
+    df_eliminado = df[df['date'] >= fecha_inicio_valido]
+    
+    return df_filtrado, df_eliminado
 
 def add_rsi(df, period=14, verbose=True):
 

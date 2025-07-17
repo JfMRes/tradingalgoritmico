@@ -1,0 +1,3 @@
+
+TAKE_PROFIT = 3
+STOP_LOSS = 1

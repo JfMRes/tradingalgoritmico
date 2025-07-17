@@ -98,3 +98,5 @@ def execute_random_forest(df, n_estimators=100, random_state=42, balanced = Fals
     print(f"  Precision: {prec:.4f}")
     print(f"  Recall   : {rec:.4f}")
     print(f"  F1-score : {f1:.4f}")
+
+    return clf, feature_cols, target_col

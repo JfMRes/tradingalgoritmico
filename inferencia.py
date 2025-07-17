@@ -1,4 +1,4 @@
-def predict_from_model(df, model, feature_cols, threshold=0.5, return_probs=False):
+def predict_from_model(df, model, feature_cols, threshold=0.5, return_probs=True):
     """
     Aplica un modelo entrenado a un DataFrame con las columnas necesarias.
 
@@ -14,9 +14,6 @@ def predict_from_model(df, model, feature_cols, threshold=0.5, return_probs=Fals
         Si return_probs=True, también añade columna 'pred_proba'
     """
     df = df.copy()
-
-    
-
     X = df[feature_cols].fillna(0)
 
     if hasattr(model, "predict_proba"):
@@ -32,6 +29,6 @@ def predict_from_model(df, model, feature_cols, threshold=0.5, return_probs=Fals
     df['model_pred'] = preds.astype(bool)
     
     if return_probs:
-        return df[['model_pred', 'pred_proba']]
+        return df[['date', 'model_pred', 'pred_proba']]
     else:
         return df['model_pred']
