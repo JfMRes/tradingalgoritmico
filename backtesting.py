@@ -97,6 +97,14 @@ def back_testing_resume(df):
     print(f"Diferencia: {diferencia:.2f}")
     print(f"Diferencia porcentual: {diferencia_pct:.2f}%")
 
+    print("----- Fechas -----")
+    periodo_dias = (df['date'].max() - df['date'].min()).days or 1
+    print(f"Periodo: desde {df['date'].min().date()} hasta {df['date'].max().date()} ({periodo_dias} días, {periodo_dias // 30} meses, {periodo_dias // 365} años)")
+    media_ganancia_diaria = df['gains'].sum() / periodo_dias * 100
+    media_ganancia_anual = media_ganancia_diaria * 365
+    print(f"Media de ganancia diaria: {media_ganancia_diaria:.6f}%")
+    print(f"Media de ganancia anual: {media_ganancia_anual:.6f}%")
+
     # Conteo de cada tipo de exit_reason y total
     counts = df['exit_reason'].value_counts(dropna=True)
     total_operaciones = counts.sum()
